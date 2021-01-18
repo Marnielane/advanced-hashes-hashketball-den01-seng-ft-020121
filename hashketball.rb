@@ -1,3 +1,5 @@
+require 'pry'
+
 # Write your code below game_hash
 def game_hash
   {
@@ -127,3 +129,99 @@ def game_hash
 end
 
 # Write code here
+def num_points_scored(player_name)
+  game_hash.each do |team_location, team_details|
+    team_details[:players].each do |player|
+      if player[:player_name] == player_name
+        return player[:points]
+      end
+    end
+  end
+end
+  
+def shoe_size(player_name)
+  game_hash.each do |team_location, team_details|
+    team_details[:players].each do |player|
+      if player[:player_name] == player_name
+        return player[:shoe]
+      end
+    end
+  end
+end
+
+def team_colors(team_name)
+  game_hash.each do |team_location, team_details|
+    if team_details[:team_name] == team_name
+      return team_details[:colors]
+    end
+  end
+end
+
+def team_names
+  game_hash.map do |team_location, team_details|
+    team_details[:team_name]
+  end
+end
+
+def player_numbers(team_name)
+  player_numbers = []
+  game_hash.each do |team_location, team_details|
+    if team_details[:team_name] == team_name 
+      team_details.each do |key, value|
+        if key == :players
+          value.each do |player|
+          player_numbers.push(player[:number])
+          end
+        end
+      end
+    end
+  end
+  return player_numbers
+end
+
+def player_stats(input)
+  game_hash.each do |team, team_info|
+    team_info.each do |key, value|
+      if key == :players
+        value.each do |player|
+          if input == player[:player_name]
+            player.delete(:player_name) 
+            return player
+          end
+        end
+      end
+    end
+  end
+end
+
+def player_stats(player_name)
+  game_hash.each do |team_location, team_details|
+    team_details.each do |key, value|
+      if key == :players
+        value.each do |player_stats|
+          if player_name == player_stats[:player_name]
+            return player_stats
+          end
+        end 
+      end
+    end
+  end
+end
+
+def big_shoe_rebounds
+  biggest_shoe = 0 
+  rebounds = 0 
+  game_hash.each do |team_location, team_details|
+    team_details.each do |players, player_stats|
+      if players == :players
+        player_stats.each do |player|
+          if player[:shoe] > biggest_shoe
+            biggest_shoe = player[:shoe]
+            rebounds = player[:rebounds]
+          end
+       end
+      end
+    end
+  end
+  return rebounds
+end
